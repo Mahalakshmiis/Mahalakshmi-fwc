@@ -1,0 +1,166 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{circuitikz}
+\usepackage{tikz}
+\usepackage{amsmath, amssymb, graphicx}
+
+\begin{document}
+
+\begin{center}
+    {\Large \textbf{GATE QUESTIONS}} \\
+    {\large \textbf{EC PAPER - 2010}} \\
+    \vspace{0.5cm}
+    \textbf{MAHALAKSHMI. I. SUNKAD} \\
+    \textbf{COMETFWC012} \\
+\end{center}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Q.12)} For the output F to be 1 in the logic circuit shown, \\
+the input combination should be:
+
+\vspace{0.5cm}
+
+\textbf{Logic Circuit Diagram}
+
+%\begin{figure}[h]
+%    \centering
+   % \includegraphics[width=0.8\textwidth]{circuit_diagram.png} % Change filename accordingly
+  %  \caption{Logic Circuit Diagram}
+ %   \label{fig:circuit}
+%\end{figure}
+
+\begin{center}
+    \begin{circuitikz}
+        % Inputs
+        \node (A) at (-1.5,2.25) {\textbf{A}};
+        \node (B) at (-1,1.5) {\textbf{B}};
+        \node (C) at (2,0.5) {\textbf{C}};
+        
+        % First XOR Gate
+        \node [xor port, scale=1.2] (XOR1) at (2,2) {};
+        \draw (A.east) -- (XOR1.in 1);
+        \draw (B.east) -- (XOR1.in 2);
+        \node at (1, 3) {\small $X = A \oplus B$};
+        
+        % Second XNOR Gate
+        \node [xnor port, scale=1.2] (XNOR1) at (2,0) {};
+        \draw (A.east) |- (XNOR1.in 1);
+        \draw (B.east) |- (XNOR1.in 2);
+        \node at (2, -1) {\small $Y = A \odot B$};
+
+        % Third 3-input XNOR Gate
+        \node [xnor port, scale=1.2] (XNOR2) at (7,1) {};
+        \draw (XOR1.out) -- ++(1,0) |- (XNOR2.in 1);
+        \draw (XNOR1.out) -- ++(1,0) |- (XNOR2);
+        \draw (C.east) -- (XNOR2.in 2);     
+        \node at (6, 2) {\small $F = \overline{X \oplus Y \oplus C}$};
+
+        % Output
+        \node (F) at (9,1) {\textbf{F}};
+        \draw (XNOR2.out) -- (F.west);
+    \end{circuitikz}
+\end{center}
+\vspace{0.5cm}
+\noindent\textbf{(A)} A = 1, B = 1, C = 0 \\ 
+\textbf{(B)}A = 1, B = 0, C = 0 \\ 
+\textbf{(C)} A = 0, B = 1, C = 0 \\ 
+\textbf{(D)} \bf{A = 0, B = 0, C = 1}
+\section*{Solution}
+
+\textbf{Step 1: Understanding the Logic Circuit}
+
+The circuit consists of:
+
+\begin{enumerate}
+    \item \textbf{First Gate (XOR)}  
+    \begin{itemize}
+        \item Inputs: $A, B$
+        \item Output: $X$
+    \end{itemize}
+    
+    \item \textbf{Second Gate (XNOR)}  
+    \begin{itemize}
+        \item Inputs: $A, B$
+        \item Output: $Y$
+    \end{itemize}
+    
+    \item \textbf{Third Gate (3-input XNOR)}  
+    \begin{itemize}
+        \item Inputs: $X, Y, C$
+        \item Output: $F$
+        \end{itemize}
+\end{enumerate}
+
+\hrulefill
+
+\textbf{Step 2: Deriving Boolean Expressions}
+
+\begin{enumerate}
+    \item \textbf{First XOR Gate:}
+\[
+    X = A \oplus B = A\overline{B} + \overline{A}B
+\]
+    
+    \item \textbf{Second XNOR Gate:}
+\[
+    Y = A \odot B = AB + \overline{A} \overline{B}
+\]
+
+    \item \textbf{Third XNOR Gate (3-input XNOR):}
+\[
+    F = X \odot Y \odot C
+\]
+\[
+    F = \overline{X \oplus Y \oplus C}
+\]
+\[
+    F = \overline{(A \oplus B) \oplus (A \odot B) \oplus C}
+\]
+\end{enumerate}
+
+\hrulefill
+
+\textbf{Step 3: Constructing the Truth Table}
+
+\begin{center}
+    \begin{tabular}{|c|c|cc|cc|}
+        \hline
+        A & B & C & X (XOR) & Y (XNOR) & F (3-input XNOR) \\ 
+        \hline
+        0 & 0 & 0 & 0 & 1 & 1 \\  
+        0 & 0 & 1 & 0 & 1 & 0 \\  
+        0 & 1 & 0 & 1 & 0 & 1 \\  
+        0 & 1 & 1 & 1 & 0 & 0 \\  
+        1 & 0 & 0 & 1 & 0 & 1 \\  
+        1 & 0 & 1 & 1 & 0 & 0 \\  
+        1 & 1 & 0 & 0 & 1 & 1 \\  
+        1 & 1 & 1 & 0 & 1 & 0 \\  
+        \hline
+    \end{tabular}
+\end{center}
+\hrulefill
+
+\section*{Step 4: Finding the Correct Answer}
+
+For $F = 1$, the valid input combination is:
+
+\[
+(0,0,1)
+\]
+
+Comparing with given options:
+
+\begin{itemize}
+    \item (A) $A = 1, B = 1, C = 0$
+    \item (B) $A = 1, B = 0, C = 0$
+    \item (C) $A = 0, B = 1, C = 0$ 
+    \item (D) $A = 0, B = 0, C = 1$  (Correct)
+\end{itemize}
+
+\textbf{Final Answer:}  
+
+\[
+\textbf{Option (D): A = 0, B = 0, C = 1}
+\]
+
+\end{document}
